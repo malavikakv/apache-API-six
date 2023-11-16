@@ -1,0 +1,36 @@
+version: "3.3"
+
+services:
+  keycloak:
+    container_name: keycloak
+    image: jboss/keycloak:9.0.2
+    environment:
+     - KEYCLOAK_USER=admin
+     - KEYCLOAK_PASSWORD=password
+     - DB_VENDOR=h2     
+    ports:
+     - "8080:8080"
+    restart: always
+   
+  etcd:
+    container_name: etcd
+    image: bitnami/etcd:latest
+    environment:
+     - ALLOW_NONE_AUTHENTICATION=yes
+     - ETCD_ADVERTISE_CLIENT_URLS=http://127.0.0.1:2379     
+    network_mode: "host"
+    restart: always 
+    
+    
+  apache-apisix:
+    container_name: apache-apisix
+    image: apache/apisix
+    network_mode: "host"
+    restart: always
+    
+    
+  apache-apisix-dashboard:    
+    container_name: apache-apisix-dashboard
+    image: apache/apisix-dashboard
+    network_mode: "host"
+    restart: always
